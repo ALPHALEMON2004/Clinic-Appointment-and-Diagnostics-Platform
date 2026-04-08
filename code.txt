@@ -1,0 +1,119 @@
+User[icon:user,color:purple]{
+  id serial pk
+  email varchar(322)
+  password varchar(66)
+  role enum 
+  is_active boolean
+  created_at date
+  updated_at date
+
+}
+
+
+
+PATIENT[icon:user,color:blue] {
+  id serial pk
+  user_id int fk
+  name varchar
+  date_of_birth date
+  gender varchar
+  contact_number varchar
+  bloodgroup enum
+}
+
+DOCTOR[icon:doctor,color:blue] {
+  id serial pk
+  user_id int fk
+  name varchar not null
+  qualification varchar not null
+  contact_number varchar not null
+  email varchar
+  experience text not null
+  fees decimal not null
+}
+
+SPECIALTY [icon:star,color:gold]{
+  id serial pk
+  name varchar unique
+  description text
+}
+
+DOCTOR_SPECIALTY[icon:doctor,color:yellow] {
+  id serial pk
+  doctor_id int fk
+  specialty_id int fk
+}
+
+APPOINTMENT[icon:clock,color:green] {
+  id serial pk
+  patient_id int fk
+  doctor_id int fk
+  appointment_time timestamp
+  status ENUM [ 'scheduled' , 'confirmed','completed', 'cancelled','no_show']
+  reason text
+  created_at timestamp
+}
+
+CONSULTATION[icon:help-circle] {
+  id serial pk
+  appointment_id int fk unique
+  patient_id int fk
+  doctor_id int fk
+  consultation_datetime timestamp
+  diagnosis text
+  notes text
+}
+
+TESTING_Authority[color:brown,icon:money] {
+  id serial pk
+  name varchar
+  description text
+  price decimal
+}
+
+PRESCRIBED_TEST[icon:test-tube,color:orange] {
+  id serial pk
+  consultation_id int fk
+  test_id int fk
+  prescribed_datetime timestamp
+  status enum  [ 'prescribed', 'sample_collected', 'in_progress', 'completed']
+}
+
+REPORT[icon:report,color:red] {
+  id serial pk
+  prescribed_test_id int fk
+  report_generated_datetime timestamp
+  findings text not null
+}
+
+PAYMENT[icon:payment,color:green] {
+  id serial pk
+  consultation_id int fk
+  amount decimal
+  payment_datetime timestamp
+  status enum  [ 'pending','paid','refunded']
+  payment_method varchar
+}
+
+User.id - PATIENT.user_id
+
+DOCTOR.user_id - User.id
+
+
+PATIENT.id - APPOINTMENT.patient_id
+DOCTOR.id < APPOINTMENT.doctor_id
+
+APPOINTMENT.id - CONSULTATION.appointment_id
+
+PATIENT.id < CONSULTATION.patient_id
+DOCTOR.id < CONSULTATION.doctor_id
+
+DOCTOR.id < DOCTOR_SPECIALTY.doctor_id
+SPECIALTY.id < DOCTOR_SPECIALTY.specialty_id
+
+CONSULTATION.id < PRESCRIBED_TEST.consultation_id
+TESTING_Authority.id < PRESCRIBED_TEST.test_id
+
+PRESCRIBED_TEST.id - REPORT.prescribed_test_id
+
+CONSULTATION.id < PAYMENT.consultation_id
