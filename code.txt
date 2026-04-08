@@ -116,4 +116,4 @@ TESTING_Authority.id < PRESCRIBED_TEST.test_id
 
 PRESCRIBED_TEST.id - REPORT.prescribed_test_id
 
-CONSULTATION.id < PAYMENT.consultation_id
+CONSULTATION.id - PAYMENT.consultation_id

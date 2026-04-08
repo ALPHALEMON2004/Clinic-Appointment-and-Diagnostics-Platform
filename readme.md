@@ -130,8 +130,7 @@ Tracks payments made for consultations
 - One Consultation → Many Prescribed Tests  
 - One Test → Many Prescriptions  
 - One Prescribed Test → One Report  
-- One Consultation → Many Payments  
-
+- One Consultation → one Payments 
 ---
 ## ER Diagram :
 ![ER Diagram](/image.png)
